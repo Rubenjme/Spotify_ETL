@@ -1,3 +1,5 @@
+.gitignore
 .env
 Explicación.md
 imagenes
+__pycache__
