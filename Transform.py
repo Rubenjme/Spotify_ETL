@@ -28,9 +28,9 @@ def transform_data(df):
     df["song_name"] = df["song_name"].str.upper()       # Convierto a mayúsculas los nombres de las canciones
     df["artist_name"] = df["artist_name"].str.upper()   # Convierto a mayúsculas los nombres de los artistas
     
-    grouped_df = df.groupby(["date", "artist_name"], as_index=False).count()            # Agrupo los datos por fecha y nombre del artista
+    grouped_df = df.groupby(["date", "artist_name"], as_index=False).count()                 # Agrupo los datos por fecha y nombre del artista
     grouped_df.rename(columns={"played_at": "count"}, inplace=True)                          # Renombro la columna 'played_at' a 'count' (cantidad de reproducciones) 
-    grouped_df["ID"] = grouped_df["date"].astype(str) + "-" + grouped_df["artist_name"] # Creo una clave primaria basada en la fecha y el nombre del artista 
+    grouped_df["ID"] = grouped_df["date"].astype(str) + "-" + grouped_df["artist_name"]      # Creo una clave primaria basada en la fecha y el nombre del artista 
     
     transformed_df = grouped_df[["ID", "date", "artist_name", "count"]]                            # Selecciono y reorganizo las columnas
     transformed_df = transformed_df.sort_values(by="date", ascending=False).reset_index(drop=True) # Ordeno por fecha de forma descendente (de lo más reciente a lo más antiguo)
