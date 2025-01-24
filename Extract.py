@@ -7,7 +7,7 @@ import requests
 import pandas as pd
 from unidecode import unidecode
 from datetime import datetime, timedelta
-from RefreshToken import get_access_token  # Usa la función de refresh de token
+from RefreshToken import get_access_token  # Importa la función de refresh de token
 
 # Función que extrae las canciones reproducidas recientemente del usuario
 def extract_recently_played():
@@ -33,10 +33,10 @@ def extract_recently_played():
 
         # Extraigo los datos relevantes y los guardo en un diccionario 
         song_dict = {
-            "song_name": [unidecode(song["track"]["name"]) for song in data["items"]],
-            "artist_name": [unidecode(song["track"]["album"]["artists"][0]["name"]) for song in data["items"]],
-            "played_at": [song["played_at"] for song in data["items"]],
-            "timestamp": [song["played_at"][0:10] for song in data["items"]],
+            "song_name": [unidecode(song["track"]["name"]) for song in data["items"]],                              # Nombres de las canciones 
+            "artist_name": [unidecode(song["track"]["album"]["artists"][0]["name"]) for song in data["items"]],     # Nombre del artista
+            "played_at": [song["played_at"] for song in data["items"]],                                             # Fecha y hora de reproducción 
+            "date": [song["played_at"][0:10] for song in data["items"]],                                            # Extraigo solo la fecha
         }
 
         song_df = pd.DataFrame(song_dict) # Creo un DataFrame con los datos extraídos 
