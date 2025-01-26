@@ -8,7 +8,7 @@ El proyecto se encarga de:
 1. **Extraer** la lista de canciones reproducidas en las últimas 24 horas desde la API de Spotify.
 2. **Transformar** y **validar** los datos (eliminar duplicados, normalizar campos, agrupar por fecha y artista, etc.).
 3. **Cargar** la información en una tabla de la base de datos PostgreSQL.
-4. **Orquestar** todo el proceso con Airflow, permitiendo programar la ejecución diaria (o la frecuencia que elijas).
+4. **Automatizar** todo el proceso con Airflow, permitiendo programar la ejecución diaria (o la frecuencia que elijas).
 
 ## Objetivos
 
@@ -20,13 +20,13 @@ El proyecto se encarga de:
 
 ## Arquitectura
 
-Esquema aquí---
+![Estructura](https://github.com/user-attachments/assets/9412808c-b06a-4c12-9ba8-bd270ba29b42)
 
 
 1. **AuthCodeReq.py**  
-   Se usa **solo la primera vez** para obtener un **Authorization Code** de Spotify, abriendo el navegador y solicitando permiso al usuario.  
+   Se usa solo la primera vez para obtener un **Authorization Code** de Spotify, abriendo el navegador y solicitando permiso al usuario.  
 2. **AccessToken.py**  
-   También **solo la primera vez**, intercambia el Authorization Code por un **Access Token** y un **Refresh Token**. El **Refresh Token** no expira tan rápido y nos permite pedir nuevos **Access Tokens** sin volver a molestar al usuario.  
+   También solo la primera vez, intercambia el Authorization Code por un Access token y un Refresh token. El Refresh token no expira tan rápido y nos permite pedir nuevos Access tokens sin volver a molestar al usuario.  
 3. **RefreshToken.py**  
    En la ejecución diaria (ETL), se usa el **Refresh Token** para solicitar un **Access Token** actualizado y poder llamar a la API de Spotify.  
 4. **Extract.py**  
@@ -40,7 +40,7 @@ Esquema aquí---
 
 ## Proceso de extracción de tokens (Configuración inicial)
 
-Para poder extraer la lista de canciones de Spotify, es necesario obtener un token que nos dé acceso a la **API de Spotify**. El proceso es el siguiente:
+Para poder extraer la lista de canciones de Spotify, es necesario obtener un token que nos dé acceso a la API de Spotify. El proceso es el siguiente:
 
 1. **Crear una aplicación en [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)**
    - Obtén tu **Client ID** y **Client Secret**.
