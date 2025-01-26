@@ -1,5 +1,6 @@
 .gitignore
 .env
-Explicación.md
-imagenes
+Info.md
+images
 __pycache__
+logs
