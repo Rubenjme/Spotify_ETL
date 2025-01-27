@@ -22,29 +22,15 @@ El proyecto se encarga de:
 
 ![Estructura](https://github.com/user-attachments/assets/9412808c-b06a-4c12-9ba8-bd270ba29b42)
 
-
-1. **AuthCodeReq.py**  
-   Se usa solo la primera vez para obtener un **Authorization Code** de Spotify, abriendo el navegador y solicitando permiso al usuario.  
-2. **AccessToken.py**  
-   También solo la primera vez, intercambia el Authorization Code por un Access token y un Refresh token. El Refresh token no expira tan rápido y nos permite pedir nuevos Access tokens sin volver a molestar al usuario.  
-3. **RefreshToken.py**  
-   En la ejecución diaria (ETL), se usa el **Refresh Token** para solicitar un **Access Token** actualizado y poder llamar a la API de Spotify.  
-4. **Extract.py**  
-   Llama a la API de Spotify (con el token renovado) y devuelve un DataFrame con las reproducciones recientes (últimas 24 horas).  
-5. **Transform.py**  
-   Valida, limpia y normaliza los datos (por ejemplo, pasa los campos a mayúsculas y agrupa por fecha y artista).  
-6. **Load.py**  
-   Carga los datos resultantes en la tabla `spotify_tracks` de la base de datos PostgreSQL.  
-7. **Airflow**  
-   Controla la programación y el orden de ejecución de `Extract -> Transform -> Load`.  
-
-## Proceso de extracción de tokens (Configuración inicial)
+## Configuración inicial - Proceso de extracción de tokens 
 
 Para poder extraer la lista de canciones de Spotify, es necesario obtener un token que nos dé acceso a la API de Spotify. El proceso es el siguiente:
 
 1. **Crear una aplicación en [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)**
    - Obtén tu **Client ID** y **Client Secret**.
    - Registra una **Redirect URI** (por ejemplo, 'http://localhost:8888/callback').
+![appSpotify](https://github.com/user-attachments/assets/f68cf581-fbc9-45dc-818e-dda962e3c265)
+![appSpotify2](https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605)
 
 2. **Definir variables de entorno**  
    Crea un archivo `.env` con las siguientes claves (entre otras que uses para Postgres):
@@ -56,22 +42,105 @@ Para poder extraer la lista de canciones de Spotify, es necesario obtener un tok
    SPOTIFY_REFRESH_TOKEN=      # Se rellenará tras AccessToken.py
 
 3. **Ejecutar AuthCodeReq.py**
+   
+   Se usa solo la primera vez para obtener un **Authorization Code** de Spotify, abriendo el navegador y solicitando permiso al usuario.  
+   Tras autorizar, Spotify redirige a REDIRECT_URI con un código de autorización en la URL.
+   Copia ese code= (llamado Authorization Code) y pégalo en tu .env como SPOTIFY_AUTH_CODE.
+   ![1  AuthTok](https://github.com/user-attachments/assets/f89144d9-9057-4337-8639-2e6a3ed582a5)
 
-Abre el navegador y pide permiso al usuario.
-Tras autorizar, Spotify redirige a REDIRECT_URI con un código de autorización en la URL.
-Copia ese code= (llamado Authorization Code) y pégalo en tu .env como SPOTIFY_AUTH_CODE.
+5. **Ejecutar AccessToken.py**
 
-4. Ejecutar AccessToken.py
-Intercambia tu SPOTIFY_AUTH_CODE por un Access Token y un Refresh Token.
-Copia el refresh_token que aparezca en pantalla y pégalo en .env como SPOTIFY_REFRESH_TOKEN.
-A partir de ahora, no volverás a usar AccessToken.py salvo que necesites regenerar tokens.
+   También solo la primera vez, intercambia el authorization code por un access token y un refresh token.  
+   Intercambia tu SPOTIFY_AUTH_CODE por un Access Token y un Refresh Token.
+   Copia el refresh_token que aparezca en pantalla y pégalo en .env como SPOTIFY_REFRESH_TOKEN.
+   A partir de ahora, no volverás a usar AccessToken.py salvo que necesites regenerar tokens.
 
-5. Uso de RefreshToken.py en la ETL
-Cada vez que se ejecute el pipeline, RefreshToken.py obtendrá un nuevo Access Token usando SPOTIFY_REFRESH_TOKEN.
-Así se evitan problemas de caducidad y no se requiere intervención del usuario.
+7. **Uso de RefreshToken.py en la ETL**
 
+   Cada vez que se ejecute el pipeline, RefreshToken.py obtendrá un nuevo Access Token usando SPOTIFY_REFRESH_TOKEN.
+   Así se evitan problemas de caducidad y no se requiere intervención del usuario.
+   ![2  refreshTok](https://github.com/user-attachments/assets/931effc8-0917-4055-b879-7c01d7711b01)
 
 Una vez configurado este flujo de autenticación, el pipeline podrá extraer datos de Spotify sin interrupciones.
+
+## Funcionamiento
+
+### Sin automatización
+
+1. Ejecuta **Extract.py**
+
+   Llama a la API de Spotify (con el token renovado) y devuelve un DataFrame con las reproducciones recientes (últimas 24 horas). 
+   ![3  Extract](https://github.com/user-attachments/assets/af3ff0d9-0f20-46b4-b14b-c01cdf9f9c54)
+   
+3. Ejecuta **Transform.py**
+   
+   Valida, limpia y normaliza los datos (por ejemplo, pasa los campos a mayúsculas y agrupa por fecha y artista, etc).
+   ![4  Transform](https://github.com/user-attachments/assets/8c8aee05-ce70-47e2-adb0-5f3cb4ce6f07)
+
+4. Ejecuta **Load.py**
+
+   Carga los datos resultantes en la tabla `spotify_tracks` de la base de datos PostgreSQL.
+   
+   ![5  Load](https://github.com/user-attachments/assets/7c061bdf-10fd-43e9-b177-0905a56a0f87)
+
+6. Comprueba en pgAdmin de PostgreSQL
+
+   Ejecutamos pgAdmin y buscamos la base de datos para confirmar que las canciones han sido cargadas correctamente en la tabla spotify_tracks.
+
+   ![6  postgre](https://github.com/user-attachments/assets/0e9e8bf2-7007-49ae-9450-d653cb129d80)
+
+
+Si de repente escuchamos alguna nueva canción en Spotify (por ejemplo "Thunder - Imagine Dragons") y volvemos a realizar el proceso, se puede ver como la lista se actualiza. 
+
+Salida de Extract.py:
+
+![ExtractNueva](https://github.com/user-attachments/assets/9bdbf5f7-84d4-46bf-ae58-baed73d9ead4)
+
+Salida de Transform.py:
+
+![TransformNueva](https://github.com/user-attachments/assets/69a25b14-b30d-422f-a713-8542a48d93e4)
+
+Registro en PostgreSQL:
+
+![9  postgreNueva](https://github.com/user-attachments/assets/b1d464e4-0f56-4f4c-948f-a7eac77dcd10)
+
+
+### Con automatización
+
+1. Levantamos los servicios de Docker con los comandos:
+
+docker-compose build
+docker-compose up -d
+
+![docker](https://github.com/user-attachments/assets/6839fee2-27f2-4c7b-bba6-5f3ec3ad939e)
+
+
+2. Accede a la interfaz de Airflow
+
+Entramos con el usuario y contraseña configurados (Airflow en ambos casos).
+Vemos como el DAG creado aparece.
+
+![dag](https://github.com/user-attachments/assets/3d32276f-7ef3-4bef-9f28-b8fe80c28b33)
+
+Activamos el DAG para que se ejecute.
+
+![dagfuncionando](https://github.com/user-attachments/assets/91c3b1d7-4725-48b8-b140-bca8059f74cc)
+
+3. Comprobamos en base de datos
+
+![13  postgreDag](https://github.com/user-attachments/assets/9093d565-53ad-417e-8d15-ab3d35ed72f4)
+
+
+### Tener en cuenta
+
+Un problema del que no me percaté fue que tenía 2 servicios activos para un mismo puerto (5432), por lo que al ejecutar la ETL los datos no se cargaban en la BBDD.
+
+![puerto](https://github.com/user-attachments/assets/3345cf53-3198-4e7f-99f0-9762ad1b01b8) 
+
+Para resolverlo solo hay que detener el servicio de PostgreSQL (Win+R -> services.msc -> Detener el servicio), esto impedirá su uso en local mientras siga detenido.
+
+
+
 
 ## Pasos para ejecutar el proyecto
 
@@ -88,25 +157,6 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 6. Acceder a la interfaz de Airflow
 
 7. Verificar la carga de datos
-
-
-## Flujo de trabajo
-
-Autenticación Inicial:
-Ejecutas AuthCodeReq.py para obtener el Authorization Code.
-Luego, ejecutas AccessToken.py para intercambiar el Authorization Code por los Access y Refresh Tokens.
-Almacenas el Refresh Token en el archivo .env para uso futuro.
-
-Ejecución del Pipeline ETL:
-Airflow programa la ejecución diaria del DAG Spotify_etl_dag.py.
-RefreshToken.py obtiene un Access Token actualizado.
-Extract.py extrae los datos recientes de Spotify utilizando el Access Token.
-Transform.py valida y transforma los datos extraídos.
-Load.py carga los datos transformados en la base de datos spotify_data en PostgreSQL.
-
-Almacenamiento y Acceso:
-Los datos se almacenan en la tabla spotify_tracks dentro de la base de datos spotify_data.
-Puedes acceder a estos datos a través de herramientas como PgAdmin 4 para análisis y visualización.
 
 ## Próximas mejoras
 - Bases de datos individuales: Separar los datos de Airflow en otra base de datos distinta a la que se suben los datos de Spotify.
