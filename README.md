@@ -29,8 +29,8 @@ Para poder extraer la lista de canciones de Spotify, es necesario obtener un tok
 1. **Crear una aplicación en [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)**
    - Obtén tu **Client ID** y **Client Secret**.
    - Registra una **Redirect URI** (por ejemplo, 'http://localhost:8888/callback').
-![appSpotify](https://github.com/user-attachments/assets/f68cf581-fbc9-45dc-818e-dda962e3c265)
-![appSpotify2](https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605)
+   ![appSpotify](https://github.com/user-attachments/assets/f68cf581-fbc9-45dc-818e-dda962e3c265)
+   ![appSpotify2](https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605)
 
 2. **Definir variables de entorno**  
    Crea un archivo `.env` con las siguientes claves (entre otras que uses para Postgres):
@@ -109,37 +109,37 @@ Registro en PostgreSQL:
 
 1. Levantamos los servicios de Docker con los comandos:
 
-docker-compose build
-docker-compose up -d
-
-![docker](https://github.com/user-attachments/assets/6839fee2-27f2-4c7b-bba6-5f3ec3ad939e)
-
-
-2. Accede a la interfaz de Airflow
-
-Entramos con el usuario y contraseña configurados (Airflow en ambos casos).
-Vemos como el DAG creado aparece.
-
-![dag](https://github.com/user-attachments/assets/3d32276f-7ef3-4bef-9f28-b8fe80c28b33)
-
-Activamos el DAG para que se ejecute.
-
-![dagfuncionando](https://github.com/user-attachments/assets/91c3b1d7-4725-48b8-b140-bca8059f74cc)
-
-3. Comprobamos en base de datos
-
-![13  postgreDag](https://github.com/user-attachments/assets/9093d565-53ad-417e-8d15-ab3d35ed72f4)
+   - docker-compose build
+   - docker-compose up -d
+   
+   ![docker](https://github.com/user-attachments/assets/6839fee2-27f2-4c7b-bba6-5f3ec3ad939e)
 
 
-### Tener en cuenta
+3. Accede a la interfaz de Airflow
+
+   Entramos con el usuario y contraseña configurados (Airflow en ambos casos).
+   Vemos como el DAG creado aparece.
+   
+   ![dag](https://github.com/user-attachments/assets/3d32276f-7ef3-4bef-9f28-b8fe80c28b33)
+
+   Activamos el DAG para que se ejecute.
+
+   ![dagfuncionando](https://github.com/user-attachments/assets/91c3b1d7-4725-48b8-b140-bca8059f74cc)
+
+4. Comprobamos en base de datos que aparece la canción de Imagine Dragons, además de otras nuevas.
+   
+   Se puede ver que también se han creado diversas tablas que pertenecen a Airflow, esto se debe a que se configuró que sus datos se almacenarán también en la misma base de datos, próximamente lo cambiaré para que los datos de Airflow se encuentren en una base de datos    diferente.
+
+   ![13  postgreDag](https://github.com/user-attachments/assets/9093d565-53ad-417e-8d15-ab3d35ed72f4)
+
+
+### ⚠️Tener en cuenta
 
 Un problema del que no me percaté fue que tenía 2 servicios activos para un mismo puerto (5432), por lo que al ejecutar la ETL los datos no se cargaban en la BBDD.
 
 ![puerto](https://github.com/user-attachments/assets/3345cf53-3198-4e7f-99f0-9762ad1b01b8) 
 
 Para resolverlo solo hay que detener el servicio de PostgreSQL (Win+R -> services.msc -> Detener el servicio), esto impedirá su uso en local mientras siga detenido.
-
-
 
 
 ## Pasos para ejecutar el proyecto
