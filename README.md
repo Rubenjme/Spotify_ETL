@@ -19,8 +19,9 @@ El proyecto se encarga de:
 - Aprender y demostrar conocimientos de Airflow, Docker y Python en un flujo de trabajo ETL real.
 
 ## Arquitectura
-
-![Estructura](https://github.com/user-attachments/assets/9412808c-b06a-4c12-9ba8-bd270ba29b42)
+  <div align="center">
+     <img src="https://github.com/user-attachments/assets/9412808c-b06a-4c12-9ba8-bd270ba29b42">
+  </div>
 
 ## Configuración inicial - Proceso de extracción de tokens 
 
@@ -29,8 +30,13 @@ Para poder extraer la lista de canciones de Spotify, es necesario obtener un tok
 1. **Crear una aplicación en [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)**
    - Obtén tu **Client ID** y **Client Secret**.
    - Registra una **Redirect URI** (por ejemplo, 'http://localhost:8888/callback').
-   ![appSpotify](https://github.com/user-attachments/assets/f68cf581-fbc9-45dc-818e-dda962e3c265)
-   ![appSpotify2](https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605)
+  <div align="center">
+     <img src="https://github.com/user-attachments/assets/f68cf581-fbc9-45dc-818e-dda962e3c265">
+  </div>
+
+  <div align="center">
+     <img src="https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605">
+  </div>
 
 2. **Definir variables de entorno**  
    Crea un archivo `.env` con las siguientes claves (entre otras que uses para Postgres):
@@ -46,7 +52,9 @@ Para poder extraer la lista de canciones de Spotify, es necesario obtener un tok
    Se usa solo la primera vez para obtener un **Authorization Code** de Spotify, abriendo el navegador y solicitando permiso al usuario.  
    Tras autorizar, Spotify redirige a REDIRECT_URI con un código de autorización en la URL.
    Copia ese code= (llamado Authorization Code) y pégalo en tu .env como SPOTIFY_AUTH_CODE.
-   ![1  AuthTok](https://github.com/user-attachments/assets/f89144d9-9057-4337-8639-2e6a3ed582a5)
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/f89144d9-9057-4337-8639-2e6a3ed582a5">
+  </div>
 
 5. **Ejecutar AccessToken.py**
 
@@ -59,7 +67,10 @@ Para poder extraer la lista de canciones de Spotify, es necesario obtener un tok
 
    Cada vez que se ejecute el pipeline, RefreshToken.py obtendrá un nuevo Access Token usando SPOTIFY_REFRESH_TOKEN.
    Así se evitan problemas de caducidad y no se requiere intervención del usuario.
-   ![2  refreshTok](https://github.com/user-attachments/assets/931effc8-0917-4055-b879-7c01d7711b01)
+   https://github.com/user-attachments/assets/9bbbee4b-23ac-4675-95ce-7600e4997605
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/931effc8-0917-4055-b879-7c01d7711b01">
+  </div>
 
 Una vez configurado este flujo de autenticación, el pipeline podrá extraer datos de Spotify sin interrupciones.
 
