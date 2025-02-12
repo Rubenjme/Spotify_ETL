@@ -81,8 +81,9 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 1. Ejecuta **Extract.py**
 
    Llama a la API de Spotify (con el token renovado) y devuelve un DataFrame con las reproducciones recientes (últimas 24 horas). 
-   ![3  Extract](https://github.com/user-attachments/assets/af3ff0d9-0f20-46b4-b14b-c01cdf9f9c54)
-   
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/af3ff0d9-0f20-46b4-b14b-c01cdf9f9c54">
+  </div>
 3. Ejecuta **Transform.py**
    
    Valida, limpia y normaliza los datos (por ejemplo, pasa los campos a mayúsculas y agrupa por fecha y artista, etc).
