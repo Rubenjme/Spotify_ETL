@@ -114,8 +114,9 @@ Salida de Extract.py:
   </div>
 
 Salida de Transform.py:
-
-![TransformNueva](https://github.com/user-attachments/assets/69a25b14-b30d-422f-a713-8542a48d93e4)
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/69a25b14-b30d-422f-a713-8542a48d93e4">
+  </div>
 
 Registro en PostgreSQL:
 
