@@ -87,7 +87,9 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 3. Ejecuta **Transform.py**
    
    Valida, limpia y normaliza los datos (por ejemplo, pasa los campos a mayúsculas y agrupa por fecha y artista, etc).
-   ![4  Transform](https://github.com/user-attachments/assets/8c8aee05-ce70-47e2-adb0-5f3cb4ce6f07)
+    <div align="center">
+     <img src="https://github.com/user-attachments/assets/8c8aee05-ce70-47e2-adb0-5f3cb4ce6f07">
+  </div>
 
 4. Ejecuta **Load.py**
 
