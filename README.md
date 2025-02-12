@@ -94,8 +94,9 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 4. Ejecuta **Load.py**
 
    Carga los datos resultantes en la tabla `spotify_tracks` de la base de datos PostgreSQL.
-   
-   ![5  Load](https://github.com/user-attachments/assets/7c061bdf-10fd-43e9-b177-0905a56a0f87)
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/7c061bdf-10fd-43e9-b177-0905a56a0f87">
+  </div>
 
 6. Comprueba en pgAdmin de PostgreSQL
 
