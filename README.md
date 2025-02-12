@@ -101,8 +101,9 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 6. Comprueba en pgAdmin de PostgreSQL
 
    Ejecutamos pgAdmin y buscamos la base de datos para confirmar que las canciones han sido cargadas correctamente en la tabla spotify_tracks.
-
-   ![6  postgre](https://github.com/user-attachments/assets/0e9e8bf2-7007-49ae-9450-d653cb129d80)
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/0e9e8bf2-7007-49ae-9450-d653cb129d80">
+  </div>
 
 
 Si de repente escuchamos alguna nueva canción en Spotify (por ejemplo "Thunder - Imagine Dragons") y volvemos a realizar el proceso, se puede ver como la lista se actualiza. 
