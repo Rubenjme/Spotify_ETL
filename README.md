@@ -119,9 +119,9 @@ Salida de Transform.py:
   </div>
 
 Registro en PostgreSQL:
-
-![9  postgreNueva](https://github.com/user-attachments/assets/b1d464e4-0f56-4f4c-948f-a7eac77dcd10)
-
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/b1d464e4-0f56-4f4c-948f-a7eac77dcd10">
+  </div>
 
 ### Con automatización
 
