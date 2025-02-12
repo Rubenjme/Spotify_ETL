@@ -109,8 +109,9 @@ Una vez configurado este flujo de autenticación, el pipeline podrá extraer dat
 Si de repente escuchamos alguna nueva canción en Spotify (por ejemplo "Thunder - Imagine Dragons") y volvemos a realizar el proceso, se puede ver como la lista se actualiza. 
 
 Salida de Extract.py:
-
-![ExtractNueva](https://github.com/user-attachments/assets/9bdbf5f7-84d4-46bf-ae58-baed73d9ead4)
+   <div align="center">
+     <img src="https://github.com/user-attachments/assets/9bdbf5f7-84d4-46bf-ae58-baed73d9ead4">
+  </div>
 
 Salida de Transform.py:
 
