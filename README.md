@@ -155,7 +155,9 @@ Registro en PostgreSQL:
 
 Un problema del que no me percaté fue que tenía 2 servicios activos para un mismo puerto (5432), por lo que al ejecutar la ETL los datos no se cargaban en la BBDD.
 
-![puerto](https://github.com/user-attachments/assets/3345cf53-3198-4e7f-99f0-9762ad1b01b8) 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/3345cf53-3198-4e7f-99f0-9762ad1b01b8">
+</div>
 
 Para resolverlo solo hay que detener el servicio de PostgreSQL (Win+R -> services.msc -> Detener el servicio), esto impedirá su uso en local mientras siga detenido.
 
